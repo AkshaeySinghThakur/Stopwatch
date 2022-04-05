@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+        }
+        
+        .container {
+            width: 100%;
+            height: 100vh;
+            position: bottom;
+            overflow: hidden;
+           
+        }
+        
+       .bub {
+            width: 130px;
+            height: 130px;
+            border: 1px solid white;
+            box-shadow: inset 5px -5px 10px white;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, .01);
+            backdrop-filter: blur(2px);
+            position: absolute;
+            bottom: -100px;
+            /* animation: bubble 3s ease-in infinite; */
+        }
+        
+        .bub::before {
+            position: absolute;
+            content: "";
+            background-color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            top: 25px;
+            right: 23px;
+            box-shadow: 0px 0px 20px white;
+        }
+        
+        .bub.a {
+            left: 10%;
+            animation: bubble2 2s ease-in 1s infinite;
+        }
+        
+        .bub.b {
+            left: 20%;
+            animation: bubble 1.5s ease-in 1.4s infinite;
+        }
+        
+        .bub.c {
+            left: 28%;
+            animation: bubble 5s ease-in 3.8s infinite;
+        }
+        
+        .bub.d {
+            left: 40%;
+            animation: bubble 1.8s ease-in .5s infinite;
+        }
+        
+        .bub.e {
+            left: 75%;
+            animation: bubble2 2.3s ease-in 2.5s infinite;
+        }
+        
+        .bub.f {
+            left: 90%;
+            animation: bubble 2.5s ease-in 3s infinite;
+        }
+        
+        .bub.g {
+            left: 60%;
+            animation: bubble 2.2s ease-in 2s infinite;
+        }
+        
+        .bub.k {
+            left: 50%;
+            animation: bubble 1.6s ease-in 2s infinite;
+        }
+        
+        .bub.i {
+            left: 65%;
+            animation: bubble2 1.8s ease-in 2.1s infinite;
+        }
+        
+        .bub.j {
+            left: 3%;
+            animation: bubble 2s ease-in 1.5s infinite;
+        }
+        
+        .bub.h {
+            left: 35%;
+            animation: bubble2 3s ease-in infinite;
+        }
+        
+        @keyframes bubble {
+            0% {
+                opacity: 0;
+            }
+            10%,
+            93% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(90px, -700px);
+                display: none;
+            }
+        }
+        
+        @keyframes bubble2 {
+            0% {
+                opacity: 0;
+            }
+            10%,
+            93% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-90px, -700px);
+                display: none;
+            }
+        }
+    </style>
+    <title>Stopwatch</title>
+</head>
+<body>
+<div class="Back">
+
+</div>
+    <div class="container">
+    <div class="heading">
+       <h1>Stopwatch</h1>
+       
+       
+    </div>
+    <div class="stopwatch">
+        <span class="hours">00 : </span>
+        <span class="minutes">00 : </span>
+        <span class="seconds">00</span>
+    </div>
+    <div class="buttons">
+        <button type="button" class="startBtn"> START</button>
+        <button type="Button" class="lapBtn"> LAP</button>
+        <button type="Button" class="stopBtn"> STOP</button>
+    </div>
+    <div class="laps">
+        <p>LAPS:</p>
+        <div>00:00:00</div>
+    </div>
+    
+</div>
+<div class="container">
+    <span class="bub a "></span>
+    <span class="bub b "></span>
+    <span class="bub c "></span>
+    <span class="bub d"></span>
+    <span class="bub e"></span>
+    <span class="bub f"></span>
+    <span class="bub g"></span>
+    <span class="bub h"></span>
+    <span class="bub i"></span>
+    <span class="bub j "></span>
+    <span class="bub k"></span>
+</div>
+
+<script>
+const hoursSpan = document.querySelector(".hours");
+const minutesSpan = document.querySelector(".minutes");
+const secondsSpan = document.querySelector(".seconds");
+const startBtn = document.querySelector(".startBtn");
+const lapBtn = document.querySelector(".lapBtn");
+const stopBtn = document.querySelector(".stopBtn");
+const laps = document.querySelector(".laps");
+
+let hours =0;
+minutes = 0;
+seconds = 0;
+
+var stopwatch;
+
+startBtn.addEventListener("click", ()=>
+{
+    startBtn.style.display="none";
+    lapBtn.style.display="inline-block";
+    stopBtn.style.display= "inline-block";
+
+    stopwatch = setInterval(()=> 
+    {
+        seconds++;
+        if (seconds==60)
+        {
+            seconds=0;
+            minutes++;
+        }
+        if (minutes==60)
+        {
+            minutes=0;
+            hours++;
+        }
+        if (hours<=9) hoursSpan.innerText= "0" + hours + " : ";
+        else hoursSpan.innerText= hours + ":";
+        if (minutes<=9) minutesSpan.innerText= "0" + minutes + " : ";
+        else minutesSpan.innerText= minutes + ":";
+        if (seconds<=9) secondsSpan.innerText= "0" + seconds;
+        else secondsSpan.innerText= seconds;
+    }, 1000);   
+
+
+
+
+    lapBtn.addEventListener("click", ()=> {
+        const lap = document.createElement("div");
+        lap.innerText= hours+":" +minutes+":" +seconds;
+        laps.appendChild(lap);
+    })
+
+    stopBtn.addEventListener("click", ()=> {
+        lapBtn.style.display="none";
+        stopBtn.style.display="none";
+        startBtn.style.display="inline-block";
+        clearInterval(stopwatch);
+        
+
+        hoursSpan.innerText="00:"; 
+        minutesSpan.innerText="00:";
+        secondsSpan.innerText="00";
+        (hours = 0); (minutes = 0); (seconds = 0);
+    })
+    laps.innerHTML="<p> Laps: </p>";
+    });
+</script>
+
+
+</body>
+</html>
